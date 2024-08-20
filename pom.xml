@@ -11,16 +11,25 @@
     <url>http://maven.apache.org</url>
 
     <dependencies>
+        <!-- Dependencia para Gson -->
+        <dependency>
+            <groupId>com.google.code.gson</groupId>
+            <artifactId>gson</artifactId>
+            <version>2.10.1</version>
+        </dependency>
+
+        <!-- Dependencia para JUnit -->
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
-            <version>3.8.1</version>
+            <version>4.13.2</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
 
     <build>
         <plugins>
+            <!-- Plugin para ejecutar la aplicación -->
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>exec-maven-plugin</artifactId>
@@ -29,6 +38,8 @@
                     <mainClass>co.edu.escuelaing.SimpleWebServer.SimpleWebServer</mainClass>
                 </configuration>
             </plugin>
+
+            <!-- Plugin para generar documentación Javadoc -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>

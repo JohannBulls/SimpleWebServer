@@ -1,20 +1,27 @@
 function loadGetMsg() {
-    let nameVar = document.getElementById("name").value;
+    const nameVar = document.getElementById("name").value;
     const xhttp = new XMLHttpRequest();
     xhttp.onload = function() {
         document.getElementById("getrespmsg").innerHTML = this.responseText;
     }
-    xhttp.open("GET", "/api/greeting?name=" + nameVar, true);
+    xhttp.open("GET", "/webroot/" + nameVar, true);
     xhttp.send();
 }
 
 function loadPostMsg() {
-    let nameVar = document.getElementById("postname").value;
-    const xhttp = new XMLHttpRequest();
-    xhttp.onload = function() {
-        document.getElementById("postrespmsg").innerHTML = this.responseText;
-    }
-    xhttp.open("POST", "/api/greeting", true);
-    xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-    xhttp.send("name=" + nameVar);
+    const postnameVar = document.getElementById("postname").value;
+    const url = "/webroot";
+    const params = "name=" + postnameVar;
+
+    fetch(url, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: params
+    })
+    .then(response => response.text())
+    .then(data => {
+        document.getElementById("postrespmsg").innerHTML = data;
+    });
 }

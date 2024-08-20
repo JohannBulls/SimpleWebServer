@@ -1,0 +1,21 @@
+{
+  "nombre": "Johann Amaya",
+  "edad": 30,
+  "correo": "johann.amaya@example.com",
+  "direccion": {
+    "calle": "123 Calle Principal",
+    "ciudad": "Bogotá",
+    "pais": "Colombia"
+  },
+  "telefonos": [
+    {
+      "tipo": "celular",
+      "numero": "3001234567"
+    },
+    {
+      "tipo": "fijo",
+      "numero": "1234567"
+    }
+  ],
+  "activo": true
+}

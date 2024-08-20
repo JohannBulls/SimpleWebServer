@@ -1,0 +1,13 @@
+Nombre: Johann Amaya
+Edad: 30
+Correo: johann.amaya@example.com
+Dirección:
+  Calle: 123 Calle Principal
+  Ciudad: Bogotá
+  País: Colombia
+Teléfonos:
+  - Tipo: Celular
+    Número: 3001234567
+  - Tipo: Fijo
+    Número: 1234567
+Activo: Sí

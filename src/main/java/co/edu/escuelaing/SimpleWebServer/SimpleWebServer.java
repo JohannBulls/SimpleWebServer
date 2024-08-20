@@ -4,10 +4,6 @@ import java.io.*;
 import java.net.*;
 import java.util.concurrent.*;
 
-/**
- * A simple multi-threaded web server that listens for incoming connections
- * and serves static files from a specified root directory.
- */
 public class SimpleWebServer {
     private static final int PORT = 8080;
     public static final String WEB_ROOT = "src/main/java/co/edu/escuelaing/SimpleWebServer/resources";
@@ -23,11 +19,6 @@ public class SimpleWebServer {
     }
 }
 
-/**
- * A handler class that processes client requests. This class is responsible
- * for reading the HTTP request, serving the requested file, and sending the
- * appropriate HTTP response back to the client.
- */
 class ClientHandler implements Runnable {
     private Socket clientSocket;
 
@@ -43,9 +34,6 @@ class ClientHandler implements Runnable {
 
             String requestLine = in.readLine();
             if (requestLine == null) return;
-            
-            // Print request header for debugging
-            printRequestHeader(in);
 
             String[] tokens = requestLine.split(" ");
             String method = tokens[0];
@@ -55,6 +43,7 @@ class ClientHandler implements Runnable {
                 handleGetRequest(fileRequested, out, dataOut);
             } else if (method.equals("POST")) {
                 handlePostRequest(in, out);
+                redirect(out, "/webroot");  // Redirigir a /webroot después de manejar el POST
             }
 
         } catch (IOException e) {
@@ -62,37 +51,70 @@ class ClientHandler implements Runnable {
         }
     }
 
-    private void printRequestHeader(BufferedReader in) throws IOException {
-        System.out.println("Request headers:");
-        String line;
-        while (!(line = in.readLine()).isEmpty()) {
-            System.out.println("Received: " + line);
-        }
-    }
-
     private void handleGetRequest(String fileRequested, PrintWriter out, BufferedOutputStream dataOut) throws IOException {
-        File file = new File(SimpleWebServer.WEB_ROOT, fileRequested);
-        if (file.exists()) {
-            int fileLength = (int) file.length();
-            String contentType = getContentType(fileRequested);
-            byte[] fileData = readFileData(file, fileLength);
-
-            out.println("HTTP/1.1 200 OK");
-            out.println("Content-type: " + contentType);
-            out.println("Content-length: " + fileLength);
-            out.println();
-            out.flush();
-            dataOut.write(fileData, 0, fileLength);
-            dataOut.flush();
-        } else {
+        if (fileRequested.equals("/")) {
+            fileRequested = "/index.html";
+        }
+    
+        String contentType = FileHandler.getContentType(fileRequested);
+        try {
+            if (contentType.equals("application/json")) {
+                System.out.println("Document: " + fileRequested);
+                System.out.println("File Not Found");
+                String htmlTable = FileHandler.readJsonAsHtmlTable(fileRequested);
+                out.println("HTTP/1.1 200 OK");
+                out.println("Content-type: " + contentType);
+                out.println("Content-length: " + htmlTable.length());
+                out.println();
+                out.flush();
+                out.print(htmlTable);
+                out.flush();
+            } else if (contentType.startsWith("image/")) {
+                System.out.println("Document: " + fileRequested);
+                System.out.println("File Not Found");
+                byte[] fileData = FileHandler.readImage(fileRequested);
+                out.println("HTTP/1.1 200 OK");
+                out.println("Content-type: " + contentType);
+                out.println("Content-length: " + fileData.length);
+                out.println();
+                out.flush();
+                dataOut.write(fileData, 0, fileData.length);
+                dataOut.flush();
+            } else if (contentType.equals("text/html")) {
+                System.out.println("Document: " + fileRequested);
+                System.out.println("File Not Found");
+                String fileContent = FileHandler.readHtml(fileRequested);
+                out.println("HTTP/1.1 200 OK");
+                out.println("Content-type: " + contentType);
+                out.println("Content-length: " + fileContent.length());
+                out.println();
+                out.flush();
+                out.print(fileContent);
+                out.flush();
+            } else {
+                System.out.println("Document: " + fileRequested);
+                System.out.println("File Not Found");
+                String fileContent = FileHandler.readText(fileRequested);
+                out.println("HTTP/1.1 200 OK");
+                out.println("Content-type: " + contentType);
+                out.println("Content-length: " + fileContent.length());
+                out.println();
+                out.flush();
+                out.print(fileContent);
+                out.flush();
+            }
+        } catch (IOException e) {
+            System.out.println("Document: " + fileRequested);
+            System.out.println("File Not Found");
             out.println("HTTP/1.1 404 Not Found");
             out.println("Content-type: text/html");
             out.println();
-            out.flush();
             out.println("<html><body><h1>File Not Found</h1></body></html>");
             out.flush();
         }
     }
+    
+    
 
     private void handlePostRequest(BufferedReader in, PrintWriter out) throws IOException {
         StringBuilder payload = new StringBuilder();
@@ -110,6 +132,13 @@ class ClientHandler implements Runnable {
         out.flush();
     }
 
+    private void redirect(PrintWriter out, String location) {
+        out.println("HTTP/1.1 302 Found");
+        out.println("Location: " + location);
+        out.println();
+        out.flush();
+    }
+
     private String getContentType(String fileRequested) {
         if (fileRequested.endsWith(".html")) return "text/html";
         else if (fileRequested.endsWith(".css")) return "text/css";
@@ -120,10 +149,10 @@ class ClientHandler implements Runnable {
     }
 
     private byte[] readFileData(File file, int fileLength) throws IOException {
+        byte[] fileData = new byte[fileLength];
         try (FileInputStream fileIn = new FileInputStream(file)) {
-            byte[] fileData = new byte[fileLength];
             fileIn.read(fileData);
-            return fileData;
         }
+        return fileData;
     }
 }
