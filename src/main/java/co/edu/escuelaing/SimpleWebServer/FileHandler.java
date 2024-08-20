@@ -6,6 +6,7 @@ import com.google.gson.JsonParser;
 
 import java.io.*;
 import java.nio.file.Files;
+import java.util.Map;
 
 public class FileHandler {
     private static final String WEB_ROOT = "src/main/java/co/edu/escuelaing/SimpleWebServer/resources";
@@ -51,7 +52,7 @@ public class FileHandler {
         if (fileName.endsWith(".html")) return "text/html";
         else if (fileName.endsWith(".css")) return "text/css";
         else if (fileName.endsWith(".js")) return "application/javascript";
-        else if (fileName.endsWith(".json")) return "application/json";
+        else if (fileName.endsWith(".json")) return "text/html";  // Cambiado a text/html para que se muestre la tabla correctamente
         else if (fileName.endsWith(".png")) return "image/png";
         else if (fileName.endsWith(".jpg") || fileName.endsWith(".jpeg")) return "image/jpeg";
         return "text/plain";
@@ -65,7 +66,7 @@ public class FileHandler {
         if (jsonElement.isJsonObject()) {
             JsonObject jsonObject = jsonElement.getAsJsonObject();
             html.append("<tr><th>Key</th><th>Value</th></tr>");
-            for (var entry : jsonObject.entrySet()) {
+            for (Map.Entry<String, JsonElement> entry : jsonObject.entrySet()) {
                 html.append("<tr>")
                     .append("<td>").append(entry.getKey()).append("</td>")
                     .append("<td>").append(formatJsonValue(entry.getValue())).append("</td>")

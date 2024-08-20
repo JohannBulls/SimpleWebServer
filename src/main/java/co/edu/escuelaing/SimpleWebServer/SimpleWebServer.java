@@ -58,20 +58,16 @@ class ClientHandler implements Runnable {
     
         String contentType = FileHandler.getContentType(fileRequested);
         try {
-            if (contentType.equals("application/json")) {
-                System.out.println("Document: " + fileRequested);
-                System.out.println("File Not Found");
+            if (contentType.equals("text/html") && fileRequested.endsWith(".json")) {  // Si es un JSON, mostrar como tabla HTML
                 String htmlTable = FileHandler.readJsonAsHtmlTable(fileRequested);
                 out.println("HTTP/1.1 200 OK");
                 out.println("Content-type: " + contentType);
-                out.println("Content-length: " + htmlTable.length());
+                out.println("Content-length: " + htmlTable.getBytes().length);  // Calcular longitud correcta
                 out.println();
                 out.flush();
-                out.print(htmlTable);
+                out.write(htmlTable);
                 out.flush();
             } else if (contentType.startsWith("image/")) {
-                System.out.println("Document: " + fileRequested);
-                System.out.println("File Not Found");
                 byte[] fileData = FileHandler.readImage(fileRequested);
                 out.println("HTTP/1.1 200 OK");
                 out.println("Content-type: " + contentType);
@@ -81,31 +77,25 @@ class ClientHandler implements Runnable {
                 dataOut.write(fileData, 0, fileData.length);
                 dataOut.flush();
             } else if (contentType.equals("text/html")) {
-                System.out.println("Document: " + fileRequested);
-                System.out.println("File Not Found");
                 String fileContent = FileHandler.readHtml(fileRequested);
                 out.println("HTTP/1.1 200 OK");
                 out.println("Content-type: " + contentType);
-                out.println("Content-length: " + fileContent.length());
+                out.println("Content-length: " + fileContent.getBytes().length);  // Calcular longitud correcta
                 out.println();
                 out.flush();
-                out.print(fileContent);
+                out.write(fileContent);
                 out.flush();
             } else {
-                System.out.println("Document: " + fileRequested);
-                System.out.println("File Not Found");
                 String fileContent = FileHandler.readText(fileRequested);
                 out.println("HTTP/1.1 200 OK");
                 out.println("Content-type: " + contentType);
-                out.println("Content-length: " + fileContent.length());
+                out.println("Content-length: " + fileContent.getBytes().length);  // Calcular longitud correcta
                 out.println();
                 out.flush();
-                out.print(fileContent);
+                out.write(fileContent);
                 out.flush();
             }
         } catch (IOException e) {
-            System.out.println("Document: " + fileRequested);
-            System.out.println("File Not Found");
             out.println("HTTP/1.1 404 Not Found");
             out.println("Content-type: text/html");
             out.println();
@@ -113,7 +103,6 @@ class ClientHandler implements Runnable {
             out.flush();
         }
     }
-    
     
 
     private void handlePostRequest(BufferedReader in, PrintWriter out) throws IOException {
@@ -137,22 +126,5 @@ class ClientHandler implements Runnable {
         out.println("Location: " + location);
         out.println();
         out.flush();
-    }
-
-    private String getContentType(String fileRequested) {
-        if (fileRequested.endsWith(".html")) return "text/html";
-        else if (fileRequested.endsWith(".css")) return "text/css";
-        else if (fileRequested.endsWith(".js")) return "application/javascript";
-        else if (fileRequested.endsWith(".png")) return "image/png";
-        else if (fileRequested.endsWith(".jpg")) return "image/jpeg";
-        return "text/plain";
-    }
-
-    private byte[] readFileData(File file, int fileLength) throws IOException {
-        byte[] fileData = new byte[fileLength];
-        try (FileInputStream fileIn = new FileInputStream(file)) {
-            fileIn.read(fileData);
-        }
-        return fileData;
     }
 }
