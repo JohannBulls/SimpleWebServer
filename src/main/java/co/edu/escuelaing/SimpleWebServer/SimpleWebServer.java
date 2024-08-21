@@ -67,11 +67,11 @@ class ClientHandler implements Runnable {
                 out.flush();
                 out.write(htmlTable);
                 out.flush();
-            } else if (contentType.startsWith("image/")) {
+            } else  if (contentType.startsWith("image/")) {
                 byte[] fileData = FileHandler.readImage(fileRequested);
                 out.println("HTTP/1.1 200 OK");
-                out.println("Content-type: " + contentType);
-                out.println("Content-length: " + fileData.length);
+                out.println("Content-Type: " + contentType);
+                out.println("Content-Length: " + fileData.length);
                 out.println();
                 out.flush();
                 dataOut.write(fileData, 0, fileData.length);

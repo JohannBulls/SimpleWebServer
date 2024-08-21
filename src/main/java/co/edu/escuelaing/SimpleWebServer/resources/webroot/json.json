@@ -1,21 +1,23 @@
 {
-  "nombre": "Johann Amaya",
-  "edad": 30,
-  "correo": "johann.amaya@example.com",
-  "direccion": {
-    "calle": "123 Calle Principal",
-    "ciudad": "Bogotá",
-    "pais": "Colombia"
+  "empleado1": {
+    "nombre": "Ana López",
+    "edad": 28,
+    "departamento": "Recursos Humanos",
+    "salario": 35000,
+    "activo": true
   },
-  "telefonos": [
-    {
-      "tipo": "celular",
-      "numero": "3001234567"
-    },
-    {
-      "tipo": "fijo",
-      "numero": "1234567"
-    }
-  ],
-  "activo": true
+  "empleado2": {
+    "nombre": "Carlos Fernández",
+    "edad": 34,
+    "departamento": "Tecnología",
+    "salario": 45000,
+    "activo": false
+  },
+  "empleado3": {
+    "nombre": "María Rodríguez",
+    "edad": 29,
+    "departamento": "Marketing",
+    "salario": 40000,
+    "activo": true
+  }
 }
