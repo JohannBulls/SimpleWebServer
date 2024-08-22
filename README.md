@@ -51,6 +51,8 @@ SimpleWebServer is a simple Java-based web server implementation that handles bo
 3. **Asynchronous Communication**:
    - The `RestClient` class handles asynchronous GET requests to external services and manages responses.
 
+   ![alt text](images/diagram.png)
+
 ## Installation and Execution
 
 ### Prerequisites
