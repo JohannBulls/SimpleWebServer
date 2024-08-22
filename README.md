@@ -81,6 +81,11 @@ SimpleWebServer is a simple Java-based web server implementation that handles bo
 4. **Access the Application**:
    - Open your web browser and go to `http://localhost:8080`.
    - You can access static files, perform POST requests, and view the received data.
+   ![alt text](images/browser.png)
+
+5. **File examples**:
+   - These are the example files that appear for the execution of the program.
+   ![alt text](images/example.png)
 
 ### Running Unit Tests
 
