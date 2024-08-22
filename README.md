@@ -96,7 +96,7 @@ To run unit tests, ensure you have JUnit and Mockito set up in your project. The
 1. **Compile the Tests**:
 
    ```bash
-   javac -cp "path/to/junit.jar:path/to/mockito.jar:bin" src/test/java/co/edu/escuelaing/SimpleWebServer/*.java
+   mvn clean install
    ```
 
 2. **Run the Tests**:
