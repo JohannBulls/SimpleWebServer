@@ -85,6 +85,7 @@ SimpleWebServer is a simple Java-based web server implementation that handles bo
 
 5. **File examples**:
    - These are the example files that appear for the execution of the program.
+     
    ![alt text](images/example.png)
 
 ### Running Unit Tests
