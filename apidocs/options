@@ -1,0 +1,24 @@
+-classpath
+'C:/Users/User/.m2/repository/com/google/code/gson/gson/2.10.1/gson-2.10.1.jar'
+-encoding
+'Cp1252'
+-protected
+-source
+'17'
+-sourcepath
+'C:/Users/User/Documents/AREP/SimpleWebServer/src/main/java'
+-author
+-bottom
+'Copyright &#169; 2024. All rights reserved.'
+-charset
+'UTF-8'
+-d
+'C:/Users/User/Documents/AREP/SimpleWebServer/target/site/apidocs'
+-docencoding
+'UTF-8'
+-doctitle
+'SimpleWebServer 1.0-SNAPSHOT API'
+-use
+-version
+-windowtitle
+'SimpleWebServer 1.0-SNAPSHOT API'

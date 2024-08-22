@@ -1,0 +1,1 @@
+typeSearchIndex = [{"l":"All Classes and Interfaces","u":"allclasses-index.html"},{"p":"co.edu.escuelaing.SimpleWebServer","l":"RestClient"},{"p":"co.edu.escuelaing.SimpleWebServer","l":"SimpleWebServer"}];updateSearchResults();
